@@ -1,0 +1,54 @@
+.category-title {
+    cursor: pointer; /* Cambia el cursor a una mano */
+    font-weight: bold; /* Hace que el texto se vea más destacado */
+}
+.product-img {
+    width: 100%; /* Ajusta la imagen al contenedor */
+    /*min-height: 300px; Tamaño máximo */
+    /* max-height: auto; Tamaño máximo */
+    /* object-fit: cover; Recorta la imagen si es necesario */
+    height: 150px; /* Altura fija para todas las imágenes */
+    object-fit: contain; /* Asegura que la imagen no se distorsione */
+    transition: transform 0.3s ease-in-out; /* Transición suave */
+}
+
+.product-img:hover {
+    transform: scale(2); /* Aumenta la imagen cuando el usuario pasa el ratón */
+}
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Hace que todas las tarjetas tengan la misma altura */
+}
+
+.card {
+    height: 100%; /* Ajusta la altura de cada tarjeta */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido de manera uniforme */
+}
+
+.card-body {
+    flex-grow: 1; /* Hace que el contenido se expanda uniformemente */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title, .card-text, .text-muted {
+    text-align: center; /* Asegura que todo el contenido esté alineado */
+}
+
+
+#cart-section {
+    position: sticky; /* Hace que el carrito se quede fijo en la pantalla */
+    top: 10px;
+    max-height: 90vh; /* Evita que la cesta ocupe toda la pantalla */
+    overflow-y: auto; /* Permite hacer scroll dentro del carrito si hay muchos productos */
+}
+.cart-img {
+    width: 40px; /* Tamaño pequeño */
+    height: 40px;
+    object-fit: cover;
+    border-radius: 5px;
+}
