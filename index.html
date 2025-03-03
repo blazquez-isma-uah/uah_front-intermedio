@@ -14,7 +14,7 @@
         <a class="navbar-brand" href="#">Tienda Online</a>
         <div>
             <button id="cart-button" class="btn btn-outline-primary">🛒 Carrito</button>
-            <button id="admin-button" class="btn btn-outline-secondary">⚙️ Admin</button>
+            <button id="admin-button" class="btn btn-outline-secondary" onclick="window.location.href='admin.html'">⚙️ Admin</button>
         </div>
     </nav>
 
@@ -22,7 +22,7 @@
     <div class="container mt-4">
         <div class="row">
             <!-- Sección de productos -->
-            <div class="col-md-8">
+            <div class="col-md-8" id="product-section">
                 <h2>Productos</h2>
                 <div id="product-list" class="row">
                     <!-- Aquí se cargarán los productos dinámicamente -->
@@ -31,7 +31,7 @@
 
             <!-- Sección de carrito -->
             <div class="col-md-4" id="cart-section">
-                <h2>Carrito de compras</h2>
+                <h2>Cesta de la Compra</h2>
                 <ul id="cart-list" class="list-group">
                     <!-- Productos agregados al carrito -->
                 </ul>
@@ -42,6 +42,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- jQuery y Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

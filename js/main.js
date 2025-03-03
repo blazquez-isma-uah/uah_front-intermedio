@@ -1,41 +1,43 @@
 // Esperar a que el DOM esté cargado antes de ejecutar la carga de productos
 $(document).ready(function () {
+    // Si localStorage está vacío, guardar las categorías y productos de data.js
+    if (!localStorage.getItem("categories")) {
+        localStorage.setItem("categories", JSON.stringify(categories));
+    }
+    if (!localStorage.getItem("products")) {
+        localStorage.setItem("products", JSON.stringify(products));
+    }
+
     cargarProductos();
 
     // Evento para mostrar/ocultar el carrito al hacer clic en el botón
     $("#cart-button").click(function () {
         $("#cart-section").slideToggle();
 
-        // //Si el carrito esta oculto, mostrar 4 productos por fila
-        // if ($("#cart-section").is(":hidden")) {
-        //     $(".cart-item").removeClass("col-md-3").addClass("col-md-4");
-        // } else {
-        //     $(".cart-item").removeClass("col-md-4").addClass("col-md-3");
-        // }
     });
 });
 
-// Función para cargar productos en la tienda
+// Función para cargar productos en la tienda desde localStorage
 function cargarProductos() {
-    const productList = $("#product-list"); // Contenedor de productos
-    productList.empty(); // Limpia el contenido antes de cargar nuevos datos
+    // Recuperar datos guardados en localStorage
+    const loadedCategories = JSON.parse(localStorage.getItem("categories")) || [];
+    const loadedProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-    // Recorrer las categorías y productos para agruparlos
-    categories.forEach(category => {
-        // Título con el nombre de la categoría
+    const productList = $("#product-list");
+    productList.empty();
+
+    loadedCategories.forEach(category => {
         const categoryHeader = $(`
             <h3 class="category-title" data-category="${category.id}">
-                ${category.name} 
+                ${category.name}
             </h3>
         `);
         productList.append(categoryHeader);
 
-        // Contenedor de los productos de esta categoría
-        const categoryDiv = $(`<div class="row category-container" id="category-${category.id}"></div>`);
-        productList.append(categoryDiv);
+        const categoryContainer = $(`<div class="row category-container" id="category-${category.id}"></div>`);
+        productList.append(categoryContainer);
 
-        // Filtrar los productos por categoría y los agregar al contenedor correspondiente usando un card de Bootstrap
-        products.filter(p => p.categoryId === category.id).forEach(product => {
+        loadedProducts.filter(p => p.categoryId === category.id).forEach(product => {
             const productCard = $(`
                 <div class="col-md-4 product-card">
                     <div class="card">
@@ -51,9 +53,10 @@ function cargarProductos() {
                     </div>
                 </div>
             `);
-            categoryDiv.append(productCard);
+            categoryContainer.append(productCard);
         });
     });
+
 
     // Evento para ocultar/mostrar productos de una categoría al hacer clic en el título
     $(".category-title").click(function () {
