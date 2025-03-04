@@ -35,9 +35,9 @@ $(document).ready(function () {
 
         const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
         const newCategoryId = categories.length + 1;
-        categories.push({ id: newCategoryId, name: categoryName });
+        savedCategories.push({ id: newCategoryId, name: categoryName });
 
-        localStorage.setItem("categories", JSON.stringify(categories)); // Guardar en localStorage
+        localStorage.setItem("categories", JSON.stringify(savedCategories)); // Guardar en localStorage
 
         alert("Categoría agregada con éxito.");
         $("#new-category-name").val("");
@@ -53,7 +53,7 @@ $(document).ready(function () {
     }
 
     // Agregar nuevo producto y guardarlo en localStorage
-    $("#add-product-btn").click(function () {
+    $("#add-product-btn").click(async function () {
         const productName = $("#new-product-name").val().trim();
         const productCode = parseInt($("#new-product-code").val().trim());
         const productDescription = $("#new-product-description").val().trim();
@@ -68,25 +68,29 @@ $(document).ready(function () {
         }
 
         // Verificar que el código del producto sea único
-        if (products.some(p => p.id === productCode)) {
+        const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+        if (savedProducts.some(p => p.id === productCode)) {
             alert("El código del producto ya existe. Introduce uno diferente.");
             return;
         }
 
         // Crear un objeto URL para la imagen seleccionada
-        const imageURL = URL.createObjectURL(imageFile);
+        // const imageURL = URL.createObjectURL(imageFile);
 
-        products.push({
+        // Convertir la imagen a Base64
+        const imageBase64 = await getBase64(imageFile);
+
+        savedProducts.push({
             id: productCode,
             name: productName,
             description: productDescription,
             price: productPrice,
             stock: productStock,
             categoryId: categoryId,
-            image: imageURL
+            image: imageBase64
         });
 
-        localStorage.setItem("products", JSON.stringify(products)); // Guardar en localStorage
+        localStorage.setItem("products", JSON.stringify(savedProducts)); // Guardar en localStorage
 
         alert("Producto agregado con éxito.");
         $("#new-product-name").val("");
@@ -98,5 +102,15 @@ $(document).ready(function () {
 
         loadProducts(); // Actualizar productos guardados
     });
+
+    // Función para convertir la imagen a Base64
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
 
 });
