@@ -1,8 +1,13 @@
 // Carrito de compras (array donde almacenar los productos seleccionados)
 let cart = [];
+// Variable global para almacenar los productos
+let allProducts = [];
 
 // Esperar a que el DOM esté listo
 $(document).ready(function () {
+    // Cargar productos desde localStorage
+    loadAllProducts();
+
     // Evento para agregar productos al carrito
     $(document).on("click", ".add-to-cart", function () {
         const productId = $(this).data("id"); // Obtiene el ID del producto
@@ -22,10 +27,19 @@ $(document).ready(function () {
     updateCartUI(); // Inicializar la vista del carrito
 });
 
+// Función para cargar productos desde localStorage
+function loadAllProducts() {
+    // Recuperar datos guardados en localStorage
+    allProducts = JSON.parse(localStorage.getItem("products")) || [];
+}
+
 // Función para agregar un producto al carrito
 function addToCart(productId) {
-    const product = products.find(p => p.id === productId); // Buscar producto en `products`
+    const product = allProducts.find(p => p.id === productId); // Buscar producto
     
+    // Asegurar que el stock es un número y no un string
+    product.stock = Number(product.stock);
+
     // Si no hay stock, mostrar un mensaje y salir de la función
     if (!product || product.stock <= 0) {
         alert("No hay más stock disponible.");
@@ -71,7 +85,7 @@ function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
         }
         // Devolver una unidad al stock original
-        const product = products.find(p => p.id === productId);
+        const product = allProducts.find(p => p.id === productId);
         if (product) {
             product.stock++;
 
@@ -101,11 +115,11 @@ function updateCartUI() {
     let total = 0;
     // Recorrer los productos del carrito y mostrarlos en la lista con su cantidad y precio
     cart.forEach(item => {
+        const product = allProducts.find(p => p.id === item.id);
+
         const totalItemPrice = item.price * item.quantity;
         total += totalItemPrice;
-
-        const product = products.find(p => p.id === item.id);
-
+        
         const cartItem = $(`
             <li class="list-group-item d-flex align-items-center">
                 <img src="${product.image}" class="cart-img me-2">

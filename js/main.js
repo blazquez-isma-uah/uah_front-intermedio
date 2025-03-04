@@ -23,6 +23,11 @@ function cargarProductos() {
     const loadedCategories = JSON.parse(localStorage.getItem("categories")) || [];
     const loadedProducts = JSON.parse(localStorage.getItem("products")) || [];
 
+    // Asegurar que el stock es un número y no un string
+    loadedProducts.forEach(p => {
+        p.stock = Number(p.stock);
+    });
+
     const productList = $("#product-list");
     productList.empty();
 
