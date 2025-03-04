@@ -113,4 +113,14 @@ $(document).ready(function () {
         });
     }
 
+    $("#reset-data-btn").click(function () {
+        if (confirm("¿Seguro que quieres eliminar todos los productos y categorías guardados?")) {
+            localStorage.removeItem("products");
+            localStorage.removeItem("categories");
+            alert("Datos eliminados. Recarga la página para ver los cambios.");
+            location.reload();
+        }
+    });
+    
+
 });
