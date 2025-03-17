@@ -46,6 +46,11 @@ function addToCart(productId) {
         return;
     }
 
+    // Animación de la imagen del producto
+    const productImage = $(`[data-id="${productId}"]`).closest(".card").find(".product-img");
+    productImage.animate({ opacity: 0.5 }, 200).animate({ opacity: 1 }, 200);
+
+
     // Si hay stock, lo agrega al carrito o incrementa su cantidad si ya está en el carrito
     const cartItem = cart.find(item => item.id === productId);
     if (cartItem) {
