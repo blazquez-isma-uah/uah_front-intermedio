@@ -72,6 +72,7 @@ function addToCart(productId) {
         $(`[data-id="${product.id}"]`).closest(".card").find(".product-img").css("opacity", "0.5");
     }
 
+    showNotification("Producto agregado a la cesta 🛒");
     updateCartUI(); // Actualizar interfaz del carrito
 }
 
@@ -148,4 +149,16 @@ function checkoutCart() {
     // Limpiar el carrito y actualizar la interfaz
     cart = [];
     updateCartUI();
+}
+
+function showNotification(message) {
+    const notification = $(`
+        <div class="alert alert-success fixed-bottom text-center" style="display:none;">
+            ${message}
+        </div>
+    `);
+    $("body").append(notification);
+    notification.fadeIn(300).delay(1000).fadeOut(500, function() {
+        $(this).remove();
+    });
 }
