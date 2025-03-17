@@ -7,6 +7,7 @@ $(document).ready(function () {
         if (password === "123456") {
             $("#admin-login").hide();
             $("#admin-panel").show();
+            $("#reset-data-btn").show();
             loadCategories(); // Cargar categorías en el select
         } else {
             alert("Contraseña incorrecta");
