@@ -35,7 +35,15 @@ $(document).ready(function () {
         }
 
         const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
-        const newCategoryId = categories.length + 1;
+        
+        // Comprobar que no haya otra categoría con el mismo nombre exacto
+        if (savedCategories.some(category => category.name.toLowerCase() === categoryName.toLowerCase())) {
+            alert("Ya existe una categoría con ese nombre.");
+            return;
+        }
+
+        // Buscar el id más alto ya existente y sumarle uno
+        const newCategoryId = savedCategories.length > 0 ? Math.max(...savedCategories.map(category => category.id)) + 1 : 1;
         savedCategories.push({ id: newCategoryId, name: categoryName });
 
         localStorage.setItem("categories", JSON.stringify(savedCategories)); // Guardar en localStorage

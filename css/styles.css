@@ -1,20 +1,22 @@
 .category-title {
-    cursor: pointer; /* Cambia el cursor a una mano */
-    font-weight: bold; /* Hace que el texto se vea más destacado */
+    cursor: pointer;
+    font-weight: bold; 
 }
 .product-img {
-    width: 100%; /* Ajusta la imagen al contenedor */
-    /*min-height: 300px; Tamaño máximo */
-    /* max-height: auto; Tamaño máximo */
-    /* object-fit: cover; Recorta la imagen si es necesario */
-    height: 150px; /* Altura fija para todas las imágenes */
+    width: 100%; 
+    height: 150px; 
     object-fit: contain; /* Asegura que la imagen no se distorsione */
     transition: transform 0.3s ease-in-out; /* Transición suave */
 }
 
 .product-img:hover {
-    transform: scale(2); /* Aumenta la imagen cuando el usuario pasa el ratón */
+    transform: scale(2); /* Aumenta la imagen cuando al pasar el ratón */
 }
+
+#product-section {
+    transition: width 0.3s ease-in-out;
+}
+
 
 .product-card {
     margin-bottom: 30px; /* Aumenta la separación entre filas */
@@ -22,13 +24,13 @@
 
 .category-title {
     margin-top: 40px; /* Mayor separación entre categorías */
-    padding: 10px 0; /* Espaciado adicional para mejor visibilidad */
-    border-bottom: 2px solid #ddd; /* Línea sutil para separar categorías */
+    padding: 10px 0; 
+    border-bottom: 2px solid #ddd; 
 }
 
 
 .card {
-    height: 100%; /* Ajusta la altura de cada tarjeta */
+    height: 100%; 
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Distribuye el contenido de manera uniforme */
@@ -42,12 +44,12 @@
 }
 
 .card-title, .card-text, .text-muted {
-    text-align: center; /* Asegura que todo el contenido esté alineado */
+    text-align: center; /* Todo el contenido esté alineado en el centro */
 }
 
 
 .cart-img {
-    width: 40px; /* Tamaño pequeño */
+    width: 40px; /* Tamaño mas pequeño */
     height: 40px;
     object-fit: cover;
     border-radius: 5px;

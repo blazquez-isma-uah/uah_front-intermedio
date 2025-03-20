@@ -11,9 +11,15 @@ $(document).ready(function () {
     cargarProductos();
 
     // Evento para mostrar/ocultar el carrito al hacer clic en el botón
+    // y ajustar el ancho de la sección de productos
     $("#cart-button").click(function () {
-        $("#cart-section").slideToggle();
-
+        $("#cart-section").slideToggle(300, function () {
+            if ($("#cart-section").is(":visible")) {
+                $("#product-section").removeClass("col-md-12").addClass("col-md-7");
+            } else {
+                $("#product-section").removeClass("col-md-7").addClass("col-md-12");
+            }
+        });
     });
 });
 

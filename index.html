@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <!-- Navbar -->
+    <!-- Menu -->
     <nav class="navbar navbar-light bg-light px-3">
         <a class="navbar-brand" href="#">Tienda Online</a>
         <div>
-            <button id="cart-button" class="btn btn-outline-primary">🛒 Carrito</button>
-            <button id="admin-button" class="btn btn-outline-secondary" onclick="window.location.href='admin.html'">⚙️ Admin</button>
+            <button id="cart-button" class="btn btn-outline-primary"><i class="bi bi-cart4"></i> Cesta de la Compara</button>
+            <button id="admin-button" class="btn btn-outline-secondary" onclick="window.location.href='admin.html'"><i class="bi bi-gear"></i> Admin</button>
         </div>
     </nav>
 
@@ -22,7 +23,7 @@
     <div class="container mt-4">
         <div class="row">
             <!-- Sección de productos -->
-            <div class="col-md-8" id="product-section">
+            <div class="col-md-7" id="product-section">
                 <h2>Productos</h2>
                 <div id="product-list" class="row">
                     <!-- Aquí se cargarán los productos dinámicamente -->
@@ -30,7 +31,7 @@
             </div>
 
             <!-- Sección de carrito -->
-            <div class="col-md-4" id="cart-section">
+            <div class="col-md-5" id="cart-section">
                 <h2>Cesta de la Compra</h2>
                 <ul id="cart-list" class="list-group">
                     <!-- Productos agregados al carrito -->

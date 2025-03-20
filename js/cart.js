@@ -47,8 +47,8 @@ function addToCart(productId) {
     }
 
     // Animación de la imagen del producto
-    const productImage = $(`[data-id="${productId}"]`).closest(".card").find(".product-img");
-    productImage.animate({ opacity: 0.5 }, 200).animate({ opacity: 1 }, 200);
+    // const productImage = $(`[data-id="${productId}"]`).closest(".card").find(".product-img");
+    // productImage.animate({ opacity: 0.5 }, 200).animate({ opacity: 1 }, 200);
 
 
     // Si hay stock, lo agrega al carrito o incrementa su cantidad si ya está en el carrito
@@ -77,7 +77,7 @@ function addToCart(productId) {
         $(`[data-id="${product.id}"]`).closest(".card").find(".product-img").css("opacity", "0.5");
     }
 
-    showNotification("Producto agregado a la cesta 🛒");
+    showNotification("Producto agregado a la cesta");
     updateCartUI(); // Actualizar interfaz del carrito
 }
 
@@ -129,8 +129,8 @@ function updateCartUI() {
         const cartItem = $(`
             <li class="list-group-item d-flex align-items-center">
                 <img src="${product.image}" class="cart-img me-2">
-                <span>${item.name} (x${item.quantity}) - $${totalItemPrice.toFixed(2)}</span>
-                <button class="btn btn-danger btn-sm remove-from-cart ms-auto" data-id="${item.id}">❌</button>
+                <span><strong>${item.id}</strong> ${item.name} (x${item.quantity}) - $${totalItemPrice.toFixed(2)}</span>
+                <button class="btn btn-danger btn-sm remove-from-cart ms-auto" data-id="${item.id}"><i class="bi bi-trash3"></i> Eliminar</button>
             </li>
         `);
 
