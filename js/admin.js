@@ -84,10 +84,9 @@ $(document).ready(function () {
             return;
         }
 
-        // Convertir la imagen a Base64 porque localStorage solo guarda strings
-        // y las imágenes son archivos binarios que no se pueden guardar directamente
-        // pero sí su representación en Base64
-        const imageBase64 = await getBase64(imageFile);
+        // Guardar solo el nombre del archivo en la propiedad "image"
+        // La imagen tiene que ser guardada en la carpeta "img" del proyecto
+        const imagePath = `img/${imageFile.name}`;
 
         savedProducts.push({
             id: productCode,
@@ -96,7 +95,7 @@ $(document).ready(function () {
             price: productPrice,
             stock: productStock,
             categoryId: categoryId,
-            image: imageBase64
+            image: imagePath
         });
 
         localStorage.setItem("products", JSON.stringify(savedProducts));

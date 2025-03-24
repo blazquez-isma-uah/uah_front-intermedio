@@ -8,16 +8,8 @@ $(document).ready(async function () {
             const data = await response.json();
 
             localStorage.setItem("categories", JSON.stringify(data.categories));
-
-            // Convertir imágenes a Base64 antes de guardar los productos en localStorage
-            const productsWithBase64 = await Promise.all(data.products.map(async product => {
-                const response = await fetch(product.image);
-                const blob = await response.blob();
-                const base64 = await getBase64(blob);
-                return { ...product, image: base64 };
-            }));
-
-            localStorage.setItem("products", JSON.stringify(productsWithBase64));
+            localStorage.setItem("products", JSON.stringify(data.products));
+            
             cargarProductos();
         } catch (error) {
             console.error("Error cargando data.json:", error);
