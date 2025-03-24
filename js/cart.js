@@ -1,6 +1,7 @@
-// Carrito de compras (array donde almacenar los productos seleccionados)
+// Array para almacenar los productos añadidos al carrito
 let cart = [];
 // Variable global para almacenar los productos
+// Se va a utilizar para actualizar el stock de los productos
 let allProducts = [];
 
 // Esperar a que el DOM esté listo
@@ -10,7 +11,7 @@ $(document).ready(function () {
 
     // Evento para agregar productos al carrito
     $(document).on("click", ".add-to-cart", function () {
-        const productId = $(this).data("id"); // Obtiene el ID del producto
+        const productId = $(this).data("id");
         addToCart(productId);
     });
 
@@ -29,7 +30,6 @@ $(document).ready(function () {
 
 // Función para cargar productos desde localStorage
 function loadAllProducts() {
-    // Recuperar datos guardados en localStorage
     allProducts = JSON.parse(localStorage.getItem("products")) || [];
 }
 
@@ -42,14 +42,9 @@ function addToCart(productId) {
 
     // Si no hay stock, mostrar un mensaje y salir de la función
     if (!product || product.stock <= 0) {
-        alert("No hay más stock disponible.");
+        alert("No hay más stock disponible");
         return;
     }
-
-    // Animación de la imagen del producto
-    // const productImage = $(`[data-id="${productId}"]`).closest(".card").find(".product-img");
-    // productImage.animate({ opacity: 0.5 }, 200).animate({ opacity: 1 }, 200);
-
 
     // Si hay stock, lo agrega al carrito o incrementa su cantidad si ya está en el carrito
     const cartItem = cart.find(item => item.id === productId);
@@ -64,16 +59,15 @@ function addToCart(productId) {
         });
     }
 
-    product.stock--; // Reducir stock del producto
-
+    // Reducir stock del producto
+    product.stock--; 
     // Actualizar el contenido del span del stock visualmente
     $(`#stock-${product.id}`).text(product.stock);
 
-    // Si el stock llega a 0
     if (product.stock === 0) {
         // Deshabilitar el botón y cambiar el texto a "Agotado"
         $(`[data-id="${product.id}"]`).prop("disabled", true).text("Agotado");
-        // Hacer la imagen más transparent
+        // Hacer la imagen más transparente
         $(`[data-id="${product.id}"]`).closest(".card").find(".product-img").css("opacity", "0.5");
     }
 
@@ -113,10 +107,11 @@ function removeFromCart(productId) {
 
 // Función para actualizar la interfaz del carrito
 function updateCartUI() {
-    const cartList = $("#cart-list"); // Lista del carrito
-    const cartTotal = $("#cart-total"); // Total del carrito
+    const cartList = $("#cart-list");
+    const cartTotal = $("#cart-total");
 
-    cartList.empty(); // Limpiar el carrito
+    // Limpiar el carrito antes de actualizarlo
+    cartList.empty(); 
 
     let total = 0;
     // Recorrer los productos del carrito y mostrarlos en la lista con su cantidad y precio
@@ -126,6 +121,7 @@ function updateCartUI() {
         const totalItemPrice = item.price * item.quantity;
         total += totalItemPrice;
         
+        // Crear elemento del carrito 
         const cartItem = $(`
             <li class="list-group-item d-flex align-items-center">
                 <img src="${product.image}" class="cart-img me-2">
@@ -137,13 +133,14 @@ function updateCartUI() {
         cartList.append(cartItem);
     });
 
-    cartTotal.text(total.toFixed(2)); // Mostrar total
+    // Mostrar total de la compra
+    cartTotal.text(total.toFixed(2)); 
 }
 
 // Función para finalizar la compra
 function checkoutCart() {
     if (cart.length === 0) {
-        alert("El carrito está vacío.");
+        alert("El carrito está vacío");
         return;
     }
 
@@ -156,6 +153,7 @@ function checkoutCart() {
     updateCartUI();
 }
 
+// Función para mostrar notificaciones al agregar productos al carrito
 function showNotification(message) {
     const notification = $(`
         <div class="alert alert-success fixed-bottom text-center" style="display:none;">

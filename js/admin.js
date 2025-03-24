@@ -8,6 +8,7 @@ $(document).ready(function () {
             $("#admin-login").hide();
             $("#admin-panel").show();
             $("#reset-data-btn").show();
+            $("#extract-data-btn").show();
             loadCategories(); // Cargar categorías en el select
         } else {
             alert("Contraseña incorrecta");
@@ -46,7 +47,7 @@ $(document).ready(function () {
         const newCategoryId = savedCategories.length > 0 ? Math.max(...savedCategories.map(category => category.id)) + 1 : 1;
         savedCategories.push({ id: newCategoryId, name: categoryName });
 
-        localStorage.setItem("categories", JSON.stringify(savedCategories)); // Guardar en localStorage
+        localStorage.setItem("categories", JSON.stringify(savedCategories));
 
         alert("Categoría agregada con éxito.");
         $("#new-category-name").val("");
@@ -72,21 +73,20 @@ $(document).ready(function () {
         const imageFile = $("#new-product-image")[0].files[0];
 
         if (!productName || !productCode || !productDescription || isNaN(productPrice) || isNaN(productStock) || !imageFile) {
-            alert("Todos los campos son obligatorios.");
+            alert("Todos los campos son obligatorios");
             return;
         }
 
         // Verificar que el código del producto sea único
         const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
         if (savedProducts.some(p => p.id === productCode)) {
-            alert("El código del producto ya existe. Introduce uno diferente.");
+            alert("El código del producto ya existe. Introduce uno diferente");
             return;
         }
 
-        // Crear un objeto URL para la imagen seleccionada
-        // const imageURL = URL.createObjectURL(imageFile);
-
-        // Convertir la imagen a Base64
+        // Convertir la imagen a Base64 porque localStorage solo guarda strings
+        // y las imágenes son archivos binarios que no se pueden guardar directamente
+        // pero sí su representación en Base64
         const imageBase64 = await getBase64(imageFile);
 
         savedProducts.push({
@@ -99,7 +99,7 @@ $(document).ready(function () {
             image: imageBase64
         });
 
-        localStorage.setItem("products", JSON.stringify(savedProducts)); // Guardar en localStorage
+        localStorage.setItem("products", JSON.stringify(savedProducts));
 
         alert("Producto agregado con éxito.");
         $("#new-product-name").val("");
@@ -109,19 +109,12 @@ $(document).ready(function () {
         $("#new-product-stock").val("");
         $("#new-product-image").val("");
 
-        loadProducts(); // Actualizar productos guardados
+        // Actualizar productos guardados 
+        loadProducts(); 
     });
 
-    // Función para convertir la imagen a Base64
-    function getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-    }
-
+    // Evento para eliminar todos los productos y categorías guardados
+    // Y de esta manera poder empezar de nuevo con los datos iniciales del archivo data.js
     $("#reset-data-btn").click(function () {
         if (confirm("¿Seguro que quieres eliminar todos los productos y categorías guardados?")) {
             localStorage.removeItem("products");
@@ -131,5 +124,24 @@ $(document).ready(function () {
         }
     });
     
+    // Evento para extraer los datos de productos y categorías guardados en localStorage
+    // y guardarlos en fichero data.js descargable
+    $("#extract-data-btn").click(function () {
+        const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
+        const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+
+        const data = 
+        `// Datos iniciales de categorías \n` +
+        `const categories = ${JSON.stringify(savedCategories, null, 4)}; \n\n` +
+        `// Datos iniciales de productos \n` +
+        `const products = ${JSON.stringify(savedProducts, null, 4)};`;
+
+        const blob = new Blob([data], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "data.js";
+        a.click();
+    });
 
 });

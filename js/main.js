@@ -1,11 +1,19 @@
 // Esperar a que el DOM esté cargado antes de ejecutar la carga de productos
-$(document).ready(function () {
+$(document).ready(async function () {
     // Si localStorage está vacío, guardar las categorías y productos de data.js
     if (!localStorage.getItem("categories")) {
         localStorage.setItem("categories", JSON.stringify(categories));
     }
     if (!localStorage.getItem("products")) {
-        localStorage.setItem("products", JSON.stringify(products));
+        // Convertir imágenes a Base64 antes de guardar los productos en localStorage
+        const productsWithBase64Images = await Promise.all(products.map(async product => {
+            const response = await fetch(product.image);
+            const blob = await response.blob();
+            const base64Image = await getBase64(blob);
+            return { ...product, image: base64Image };
+        }));
+        localStorage.setItem("products", JSON.stringify(productsWithBase64Images)); 
+        //localStorage.setItem("products", JSON.stringify(products));
     }
 
     cargarProductos();
@@ -37,6 +45,7 @@ function cargarProductos() {
     const productList = $("#product-list");
     productList.empty();
 
+    // Por cada categoría, crear un título y un contenedor de productos
     loadedCategories.forEach(category => {
         const categoryHeader = $(`
             <h3 class="category-title" data-category="${category.id}">
@@ -45,9 +54,11 @@ function cargarProductos() {
         `);
         productList.append(categoryHeader);
 
+        // Contenedor de productos de la categoría
         const categoryContainer = $(`<div class="row category-container" id="category-${category.id}"></div>`);
         productList.append(categoryContainer);
 
+        // Por cada producto de la categoría, crear una tarjeta con su información
         loadedProducts.filter(p => p.categoryId === category.id).forEach(product => {
             const productCard = $(`
                 <div class="col-md-4 product-card">
