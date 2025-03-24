@@ -1,22 +1,31 @@
 // Esperar a que el DOM esté cargado antes de ejecutar la carga de productos
 $(document).ready(async function () {
     // Si localStorage está vacío, guardar las categorías y productos de data.js
-    if (!localStorage.getItem("categories")) {
-        localStorage.setItem("categories", JSON.stringify(categories));
-    }
-    if (!localStorage.getItem("products")) {
-        // Convertir imágenes a Base64 antes de guardar los productos en localStorage
-        const productsWithBase64Images = await Promise.all(products.map(async product => {
-            const response = await fetch(product.image);
-            const blob = await response.blob();
-            const base64Image = await getBase64(blob);
-            return { ...product, image: base64Image };
-        }));
-        localStorage.setItem("products", JSON.stringify(productsWithBase64Images)); 
-        //localStorage.setItem("products", JSON.stringify(products));
+    if (!localStorage.getItem("categories") || !localStorage.getItem("products")) {
+        try {
+            // Carga el archivo files/data.json para guardar las categorías y productos en localStorage
+            const response = await fetch("files/data.json");
+            const data = await response.json();
+
+            localStorage.setItem("categories", JSON.stringify(data.categories));
+
+            // Convertir imágenes a Base64 antes de guardar los productos en localStorage
+            const productsWithBase64 = await Promise.all(data.products.map(async product => {
+                const response = await fetch(product.image);
+                const blob = await response.blob();
+                const base64 = await getBase64(blob);
+                return { ...product, image: base64 };
+            }));
+
+            localStorage.setItem("products", JSON.stringify(productsWithBase64));
+            cargarProductos();
+        } catch (error) {
+            console.error("Error cargando data.json:", error);
+        }
+    } else {
+        cargarProductos();
     }
 
-    cargarProductos();
 
     // Evento para mostrar/ocultar el carrito al hacer clic en el botón
     // y ajustar el ancho de la sección de productos

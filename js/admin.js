@@ -129,19 +129,19 @@ $(document).ready(function () {
     $("#extract-data-btn").click(function () {
         const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
         const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
-
-        const data = 
-        `// Datos iniciales de categorías \n` +
-        `const categories = ${JSON.stringify(savedCategories, null, 4)}; \n\n` +
-        `// Datos iniciales de productos \n` +
-        `const products = ${JSON.stringify(savedProducts, null, 4)};`;
-
-        const blob = new Blob([data], { type: "text/plain" });
+    
+        const data = {
+            categories: savedCategories,
+            products: savedProducts
+        };
+    
+        const blob = new Blob([JSON.stringify(data, null, 4)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "data.js";
+        a.download = "data.json";
         a.click();
     });
+    
 
 });
