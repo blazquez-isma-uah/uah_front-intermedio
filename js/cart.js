@@ -156,7 +156,7 @@ function checkoutCart() {
 // Función para mostrar notificaciones al agregar productos al carrito
 function showNotification(message) {
     const notification = $(`
-        <div class="alert alert-success fixed-bottom text-center" style="display:none;">
+        <div class="alert alert-success notification">
             ${message}
         </div>
     `);
