@@ -25,8 +25,10 @@ $(document).ready(async function () {
         $("#cart-section").slideToggle(300, function () {
             if ($("#cart-section").is(":visible")) {
                 $("#product-section").removeClass("col-md-12").addClass("col-md-7");
+                $(".product-card").removeClass("col-md-3").addClass("col-md-4");
             } else {
                 $("#product-section").removeClass("col-md-7").addClass("col-md-12");
+                $(".product-card").removeClass("col-md-4").addClass("col-md-3");
             }
         });
     });
