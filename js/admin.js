@@ -54,14 +54,6 @@ $(document).ready(function () {
         loadCategories();
     });
 
-    // Función para cargar productos desde localStorage
-    function loadProducts() {
-        const savedProducts = localStorage.getItem("products");
-        if (savedProducts) {
-            products = JSON.parse(savedProducts);
-        }
-    }
-
     // Agregar nuevo producto y guardarlo en localStorage
     $("#add-product-btn").click(async function () {
         const productName = $("#new-product-name").val().trim();
@@ -108,8 +100,6 @@ $(document).ready(function () {
         $("#new-product-stock").val("");
         $("#new-product-image").val("");
 
-        // Actualizar productos guardados 
-        loadProducts(); 
     });
 
     // Evento para eliminar todos los productos y categorías guardados

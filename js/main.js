@@ -51,7 +51,7 @@ function cargarProductos() {
     // Por cada categoría, crear un título y un contenedor de productos
     loadedCategories.forEach(category => {
         const categoryHeader = $(`
-            <h3 class="category-title" data-category="${category.id}">
+            <h3 class="category-title bg-light p-2 rounded border mb-3" data-category="${category.id}">
                 ${category.name}
             </h3>
         `);
